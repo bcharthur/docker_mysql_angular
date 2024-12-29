@@ -13,7 +13,12 @@ import { ItemsService } from '../services/items.service';
 export class ItemsComponent implements OnInit {
 
   items: any[] = [];
+
+  // Création
   newItemName: string = '';
+
+  // Édition (modal)
+  editItem: any = { id: null, name: '' };
 
   constructor(private itemsService: ItemsService) {}
 
@@ -23,7 +28,7 @@ export class ItemsComponent implements OnInit {
 
   loadItems() {
     this.itemsService.getAllItems().subscribe({
-      next: (data) => this.items = data,
+      next: (data) => (this.items = data),
       error: (err) => console.error('Erreur GET /items :', err)
     });
   }
@@ -48,5 +53,28 @@ export class ItemsComponent implements OnInit {
       },
       error: (err) => console.error('Erreur DELETE /items :', err)
     });
+  }
+
+  // Prépare l’édition et ouvre le modal
+  startEdit(item: any) {
+    // Copie l’item (pour ne pas modifier directement l’objet dans items)
+    this.editItem = { ...item };
+  }
+
+  // Valide l’édition
+  saveEdit() {
+    const { id, name } = this.editItem;
+    this.itemsService.updateItem(id, { name }).subscribe({
+      next: (res) => {
+        console.log('Item modifié :', res);
+        this.loadItems();
+      },
+      error: (err) => console.error('Erreur PUT /items :', err)
+    });
+  }
+
+  // (Optionnel) Annuler
+  cancelEdit() {
+    this.editItem = { id: null, name: '' };
   }
 }

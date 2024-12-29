@@ -3,22 +3,22 @@
 
   <div class="row">
     <div class="col-md-6">
-      <!-- Formulaire de création -->
+      <!-- Formulaire de CREATION -->
       <div class="mb-3">
         <label for="newItem" class="form-label">Nom du nouvel Item :</label>
         <input
           id="newItem"
           [(ngModel)]="newItemName"
-          placeholder="Entrez un nom"
           class="form-control"
+          placeholder="Entrez un nom"
         />
+        <button class="btn btn-primary mt-2" (click)="createItem()">Créer</button>
       </div>
-      <button class="btn btn-primary" (click)="createItem()">Créer</button>
     </div>
 
     <div class="col-md-6">
       <!-- Tableau liste des items -->
-      <table class="table table-bordered table-striped mt-3">
+      <table class="table table-bordered mt-3">
         <thead>
         <tr>
           <th>ID</th>
@@ -31,11 +31,77 @@
           <td>{{ i.id }}</td>
           <td>{{ i.name }}</td>
           <td>
-            <button class="btn btn-danger btn-sm" (click)="deleteItem(i.id)">Supprimer</button>
+            <!-- Bouton EDIT => Ouvre le modal -->
+            <button
+              class="btn btn-warning btn-sm me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#editModal"
+              (click)="startEdit(i)"
+            >
+              Éditer
+            </button>
+            <!-- Bouton DELETE -->
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="deleteItem(i.id)"
+            >
+              Supprimer
+            </button>
           </td>
         </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL Bootstrap -->
+<div
+  class="modal fade"
+  id="editModal"
+  tabindex="-1"
+  aria-labelledby="editModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Header du modal -->
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editModalLabel">Édition de l’item</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+
+      <!-- Corps du modal -->
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="editItemName" class="form-label">Modifier l’item :</label>
+          <input
+            id="editItemName"
+            [(ngModel)]="editItem.name"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <!-- Pied du modal -->
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="cancelEdit()"
+        >
+          Annuler
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          data-bs-dismiss="modal"
+          (click)="saveEdit()"
+        >
+          Enregistrer
+        </button>
+      </div>
     </div>
   </div>
 </div>
