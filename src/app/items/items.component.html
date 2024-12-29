@@ -1,0 +1,41 @@
+<div class="container mt-3">
+  <h2>Liste des Items</h2>
+
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Formulaire de création -->
+      <div class="mb-3">
+        <label for="newItem" class="form-label">Nom du nouvel Item :</label>
+        <input
+          id="newItem"
+          [(ngModel)]="newItemName"
+          placeholder="Entrez un nom"
+          class="form-control"
+        />
+      </div>
+      <button class="btn btn-primary" (click)="createItem()">Créer</button>
+    </div>
+
+    <div class="col-md-6">
+      <!-- Tableau liste des items -->
+      <table class="table table-bordered table-striped mt-3">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let i of items">
+          <td>{{ i.id }}</td>
+          <td>{{ i.name }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="deleteItem(i.id)">Supprimer</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
